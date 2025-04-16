@@ -1,1 +1,1 @@
-# coastal cozyhands Product Webpage
+# Coastal Cozyhands Product Webpage
