@@ -97,10 +97,9 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-blue-600 text-white">
+      <div className="flex items-center justify-center min-h-screen bg-[#2f62a1] text-white">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-white border-opacity-75 mb-4"></div>
-          <p className="text-2xl font-bold">Loading...</p>
         </div>
       </div>
     );
@@ -131,7 +130,7 @@ export default function Home() {
           </p>
           <button 
             onClick={() => scrollToSection('product-section')}
-            className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-12 rounded-lg font-bold text-xl transition-all duration-300 shadow-xl hover:scale-105 active:scale-95"
+            className="bg-[#1878f0] hover:bg-blue-700 text-white py-4 px-12 rounded-lg font-bold text-xl transition-all duration-300 shadow-xl hover:scale-105 active:scale-95"
           >
             Learn More
           </button>
@@ -237,7 +236,9 @@ export default function Home() {
               </p>
             </div>
 
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-xl text-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
+            <button 
+            onClick={() => window.open("https://poshmark.ca/listing/NWT-Hand-Knit-Chunky-Wool-Fingerless-Gloves-Unisex-66f8a70ff625338bab0d155f", "_blank")}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-xl text-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
               Order Now!
             </button>
           </div>
@@ -311,7 +312,7 @@ export default function Home() {
       </section>
 
       <footer className="bg-[#2a6dbf] text-white text-center py-12 animate-fade-in">
-        <p className="text-xl font-bold">© 2025 Coastal Cozyhands. All rights reserved.</p>
+        <p className="text-xl font-bold">© 2025 Coastal Cozy Hands. All rights reserved.</p>
       </footer>
     </div>
   );
