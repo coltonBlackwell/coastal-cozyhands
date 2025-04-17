@@ -47,11 +47,15 @@ export default function Home() {
 
   const colorOptions = [
     { name: "Fig", value: "fig", image: "/images/colours/fig.png" },
-    { name: "Blue", value: "blue", image: "/images/colours/blue.png" },
-    { name: "Red", value: "red", image: "/images/colours/red.png" },
+    { name: "Light Blue", value: "blue", image: "/images/colours/blue.png" },
+    { name: "Cranberry Red", value: "red", image: "/images/colours/red.png" },
     { name: "Dark Blue", value: "dark_blue", image: "/images/colours/dark_blue.png" },
     { name: "Black", value: "black", image: "/images/colours/black.png" },
-    { name: "White", value: "white", image: "/images/colours/white.png" }
+    { name: "Ivory", value: "white", image: "/images/colours/white.png" },
+    { name: "Seaglass", value: "seaglass", image: "/images/colours/seaglass.png" },
+    { name: "Oatmeal", value: "oatmeal", image: "/images/colours/oatmeal.png" },
+    { name: "Charcoal", value: "charcoal", image: "/images/colours/charcoal.png" }
+
   ];
 
   useEffect(() => {
@@ -173,7 +177,8 @@ export default function Home() {
                     key={color.value}
                     onClick={() => handleColorSelect(color.value)}
                     className={`w-10 h-10 rounded-full border-2 ${selectedColor === color.value ? 'border-blue-600' : 'border-gray-300'} transition-all`}
-                    style={{ backgroundColor: color.value === 'fig' ? '#d597b3' : color.value === 'blue' ? '#93c5fd' : color.value === 'red' ? '#bf4545' : color.value === 'dark_blue' ? '#113242' : color.value === 'black' ? '#000000' : '##ffffff' }}
+                    style={{ backgroundColor: color.value === 'fig' ? '#d597b3' : color.value === 'blue' ? '#93c5fd' : color.value === 'red' ? '#bf4545' 
+                      : color.value === 'dark_blue' ? '#113242' : color.value === 'black' ? '#000000' : color.value === 'seaglass' ? '#9da9b0' : color.value === 'oatmeal' ? '#a89a94' : color.value === 'charcoal' ? '#29292e' :'#f2f2f2' }}
                     title={color.name}
                   />
                 ))}
@@ -268,7 +273,7 @@ export default function Home() {
                 className="flex-shrink-0 w-100 bg-white border border-gray-200 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300"
               >
                 <div className="relative w-full aspect-square">
-                  <Image
+                  <Image  
                     src={product.image}
                     alt="Coastal Cozyhands in use"
                     width={400}
