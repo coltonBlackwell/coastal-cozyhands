@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,6 +8,7 @@ export default function Home() {
   const [selectedColor, setSelectedColor] = useState("fig");
   const galleryRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState(1); // 1 for forward, -1 for backward
 
   // Add this scroll function
   const scrollToSection = (id) => {
@@ -24,38 +25,23 @@ export default function Home() {
   const products = [
     {
       id: 1,
-      name: "Classic Blue",
-      image: "/images/mitten1.jpg",
-      color: "blue",
-      description: "A timeless design in a vibrant blue color."
+      image: "/images/poses/bike.png",
     },
     {
       id: 2,
-      name: "Coastal White",
-      image: "/images/mitten2.jpg",
-      color: "white",
-      description: "Elegant and versatile for any outfit."
+      image: "/images/poses/driving.png",
     },
     {
       id: 3,
-      name: "Eco Green",
-      image: "/images/mitten3.jpg",
-      color: "green",
-      description: "Sustainably made with a fresh green hue."
+      image: "/images/poses/holding-hands.png",
     },
     {
       id: 4,
-      name: "Sunset Pink",
-      image: "/images/mitten4.jpg",
-      color: "pink",
-      description: "Soft pink reminiscent of coastal sunsets."
+      image: "/images/poses/reading.png",
     },
     {
       id: 5,
-      name: "Sand Beige",
-      image: "/images/mitten5.jpg",
-      color: "beige",
-      description: "Neutral tone that matches everything."
+      image: "/images/poses/typing.png",
     }
   ];
 
@@ -75,7 +61,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Auto-scrolling gallery effect
+  // Auto-scrolling gallery effect with direction change
   useEffect(() => {
     if (isLoading || isPaused) return;
 
@@ -86,15 +72,19 @@ export default function Home() {
     const scrollSpeed = 30;
 
     const scrollInterval = setInterval(() => {
-      if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) {
-        gallery.scrollLeft = 0;
-      } else {
-        gallery.scrollLeft += scrollAmount;
+      // Check if we've reached either end
+      if (gallery.scrollLeft <= 0) {
+        setScrollDirection(1); // Switch to forward
+      } else if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) {
+        setScrollDirection(-1); // Switch to backward
       }
+
+      // Scroll in the current direction
+      gallery.scrollLeft += scrollAmount * scrollDirection;
     }, scrollSpeed);
 
     return () => clearInterval(scrollInterval);
-  }, [isLoading, isPaused]);
+  }, [isLoading, isPaused, scrollDirection]);
 
   const handleColorSelect = (color) => {
     setSelectedColor(color);
@@ -128,7 +118,7 @@ export default function Home() {
             backgroundBlendMode: "overlay",
             backgroundColor: "rgba(128, 170, 237, 0.2)",
             animation: "fadeIn 2s ease-in-out forwards",
-            opacity: 0, // Start with opacity 0
+            opacity: 0,
             zIndex: 0,
           }}
         ></div>
@@ -139,12 +129,11 @@ export default function Home() {
           <p className="text-xl sm:text-2xl mb-8 leading-relaxed">
             Keep your hands warm and stylish with our premium hand warmers, inspired by the beauty of the coast.
           </p>
-          {/* Modified Shop Now button */}
           <button 
             onClick={() => scrollToSection('product-section')}
             className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-12 rounded-lg font-bold text-xl transition-all duration-300 shadow-xl hover:scale-105 active:scale-95"
           >
-            Shop Now
+            Learn More
           </button>
         </div>
       </header>
@@ -166,7 +155,7 @@ export default function Home() {
 
           {/* Product Details */}
           <div className="w-full lg:w-1/2 max-w-2xl animate-fade-in delay-300 bg-white p-8 rounded-3xl shadow-xl border border-blue-100">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-blue-600 font-serif">Coastal Cozyhands</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-serif">Coastal Cozyhands</h2>
             
             <div className="mb-6 flex justify-between items-center">
               <div>
@@ -240,25 +229,22 @@ export default function Home() {
             </div>
 
             <div className="bg-blue-50 p-4 rounded-xl mb-8">
-              <p className="text-lg text-gray-700 mb-2">
+              {/* <p className="text-lg text-gray-700 mb-2">
                 <span className="font-bold">Note:</span> Not for sale, but you can like and save for later!
-              </p>
+              </p> */}
               <p className="text-lg text-gray-700">
                 Use code <span className="font-bold bg-blue-100 px-2 py-1 rounded">CALLASTREASURES</span> for $15 off your first Poshmark purchase.
               </p>
             </div>
 
             <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-xl text-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-              Like and Save for Later
+              Order Now!
             </button>
           </div>
         </div>
       </main>
 
-      {/* Choose Your Mitten Section */}
+      {/* Gallery Section with Bouncing Scroll */}
       <section 
         id="choose-mitten" 
         className="bg-white py-16 px-4 sm:px-8 border-b border-black"
@@ -266,11 +252,10 @@ export default function Home() {
         onMouseLeave={() => setIsPaused(false)}
       >
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-12 text-blue-600 animate-fade-in font-serif">
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-12 animate-fade-in font-serif">
             Gallery
           </h2>
           
-          {/* Auto-scrolling Gallery */}
           <div 
             ref={galleryRef}
             className="flex overflow-x-auto scrollbar-hide space-x-8 py-4"
@@ -279,34 +264,27 @@ export default function Home() {
             {products.map((product) => (
               <div 
                 key={product.id} 
-                className="flex-shrink-0 w-80 bg-white border border-gray-200 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300"
+                className="flex-shrink-0 w-100 bg-white border border-gray-200 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300"
               >
-                <div className="relative w-full aspect-square mb-6">
+                <div className="relative w-full aspect-square">
                   <Image
                     src={product.image}
-                    alt={product.name}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-2xl"
+                    alt="Coastal Cozyhands in use"
+                    width={400}
+                    height={400}
+                    className="rounded-2xl object-cover"
                   />
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-blue-600">{product.name}</h3>
-                <p className="text-lg text-gray-600 mb-6">{product.description}</p>
-                <Link href="/select-mitten">
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg hover:scale-105 active:scale-95">
-                    View Details
-                  </button>
-                </Link>
               </div>
             ))}
           </div>
 
-          {/* Manual Navigation (optional) */}
           <div className="flex justify-center mt-8 space-x-4">
             <button 
               onClick={() => {
                 if (galleryRef.current) {
                   galleryRef.current.scrollLeft -= 300;
+                  setScrollDirection(-1); // Force backward direction
                 }
               }}
               className="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition"
@@ -319,6 +297,7 @@ export default function Home() {
               onClick={() => {
                 if (galleryRef.current) {
                   galleryRef.current.scrollLeft += 300;
+                  setScrollDirection(1); // Force forward direction
                 }
               }}
               className="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition"
@@ -331,7 +310,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-blue-600 text-white text-center py-12 animate-fade-in">
         <p className="text-xl font-bold">© 2025 Coastal Cozyhands. All rights reserved.</p>
       </footer>
