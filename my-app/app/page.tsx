@@ -1,6 +1,5 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -61,12 +60,12 @@ export default function Home() {
   ];
 
   const colorOptions = [
-    { name: "Fig", value: "fig", image: "/images/coastal-cozyhands.jpg" },
-    { name: "Blue", value: "blue", image: "/images/mitten1.jpg" },
-    { name: "White", value: "white", image: "/images/mitten2.jpg" },
-    { name: "Green", value: "green", image: "/images/mitten3.jpg" },
-    { name: "Pink", value: "pink", image: "/images/mitten4.jpg" },
-    { name: "Beige", value: "beige", image: "/images/mitten5.jpg" }
+    { name: "Fig", value: "fig", image: "/images/colours/fig.png" },
+    { name: "Blue", value: "blue", image: "/images/colours/blue.png" },
+    { name: "Red", value: "red", image: "/images/colours/red.png" },
+    { name: "Dark Blue", value: "dark_blue", image: "/images/colours/dark_blue.png" },
+    { name: "Black", value: "black", image: "/images/colours/black.png" },
+    { name: "White", value: "white", image: "/images/colours/white.png" }
   ];
 
   useEffect(() => {
@@ -125,7 +124,7 @@ export default function Home() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/images/holding-hands.png')",
+            backgroundImage: "url('/images/poses/holding-hands.png')",
             backgroundBlendMode: "overlay",
             backgroundColor: "rgba(128, 170, 237, 0.2)",
             animation: "fadeIn 2s ease-in-out forwards",
@@ -186,7 +185,7 @@ export default function Home() {
                     key={color.value}
                     onClick={() => handleColorSelect(color.value)}
                     className={`w-10 h-10 rounded-full border-2 ${selectedColor === color.value ? 'border-blue-600' : 'border-gray-300'} transition-all`}
-                    style={{ backgroundColor: color.value === 'fig' ? '#d597b3' : color.value === 'blue' ? '#93c5fd' : color.value === 'white' ? '#f3f4f6' : color.value === 'green' ? '#86efac' : color.value === 'pink' ? '#f9a8d4' : '#d6d3d1' }}
+                    style={{ backgroundColor: color.value === 'fig' ? '#d597b3' : color.value === 'blue' ? '#93c5fd' : color.value === 'red' ? '#bf4545' : color.value === 'dark_blue' ? '#113242' : color.value === 'black' ? '#000000' : '##ffffff' }}
                     title={color.name}
                   />
                 ))}
@@ -194,7 +193,7 @@ export default function Home() {
             </div>
 
             <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-              These hand-knit, chunky wool fingerless gloves are designed to keep your hands warm on chilly days. The perfect blend of comfort and style, ideal for outdoor activities or lounging indoors. Available in beautiful colors.
+              These hand-knit, chunky wool fingerless gloves are designed to keep your hands warm on chilly days. The perfect blend of comfort and style, ideal for outdoor activities or lounging indoors. Available in six beautiful colors.
             </p>
 
             <div className="mb-8 space-y-4">
@@ -268,7 +267,7 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto">
           <h2 className="text-5xl md:text-6xl font-bold text-center mb-12 text-blue-600 animate-fade-in font-serif">
-            Our Collection
+            Gallery
           </h2>
           
           {/* Auto-scrolling Gallery */}
