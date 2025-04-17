@@ -46,16 +46,60 @@ export default function Home() {
   ];
 
   const colorOptions = [
-    { name: "Fig", value: "fig", image: "/images/colours/fig.png" },
-    { name: "Light Blue", value: "blue", image: "/images/colours/blue.png" },
-    { name: "Cranberry Red", value: "red", image: "/images/colours/red.png" },
-    { name: "Dark Blue", value: "dark_blue", image: "/images/colours/dark_blue.png" },
-    { name: "Black", value: "black", image: "/images/colours/black.png" },
-    { name: "Ivory", value: "white", image: "/images/colours/white.png" },
-    { name: "Seaglass", value: "seaglass", image: "/images/colours/seaglass.png" },
-    { name: "Oatmeal", value: "oatmeal", image: "/images/colours/oatmeal.png" },
-    { name: "Charcoal", value: "charcoal", image: "/images/colours/charcoal.png" }
-
+    { 
+      name: "Fig", 
+      value: "fig", 
+      image: "/images/colours/fig.png",
+      url: "https://poshmark.ca/listing/NWT-Hand-Knit-Chunky-Wool-Fingerless-Gloves-Unisex-66f8a70ff625338bab0d155f" 
+    },
+    { 
+      name: "Light Blue", 
+      value: "blue", 
+      image: "/images/colours/blue.png",
+      url: "https://poshmark.ca/listing/NWT-Handknit-Chunky-Wool-Fingerless-Gloves-Unisex-66f8ab94eba4c47ebbd03895" 
+    },
+    { 
+      name: "Cranberry Red", 
+      value: "red", 
+      image: "/images/colours/red.png",
+      url: "https://poshmark.ca/listing/NWT-Handknit-Fingerless-Chunky-Wool-Gloves-Unisex-66f8aa46eba4c45057cf7262" 
+    },
+    { 
+      name: "Dark Blue", 
+      value: "dark_blue", 
+      image: "/images/colours/dark_blue.png",
+      url: "https://poshmark.ca/listing/NWT-HandKnit-Chunky-Wool-Fingerless-Gloves-Unisex-66f8acd7eba4c425c4d0f09b" 
+    },
+    { 
+      name: "Black", 
+      value: "black", 
+      image: "/images/colours/black.png",
+      url: "https://poshmark.ca/listing/NWT-Hand-Knit-Chunky-Wool-Fingerless-Gloves-Unisex-66f8a8ba027427c8c9247ab6" 
+    },
+    { 
+      name: "Ivory", 
+      value: "white", 
+      image: "/images/colours/white.png",
+      url: "https://poshmark.ca/listing/NWT-Handknit-Chunky-Wool-Fingerless-Gloves-Unisex-66f89f77694d72aad9a34483" 
+    },
+    { 
+      name: "Seaglass", 
+      value: "seaglass", 
+      image: "/images/colours/seaglass.png",
+      url: "https://poshmark.ca/listing/NWT-Handknit-Chunky-Wool-Fingerless-Gloves-Unisex-66f89b1139a1f660a59e5742" 
+    },
+    { 
+      name: "Oatmeal", 
+      value: "oatmeal", 
+      image: "/images/colours/oatmeal.png",
+      url: "https://poshmark.ca/listing/Hand-Knit-Chunky-Wool-Fingerless-Gloves-Unisex-66f8a3ae963c425bc08e65e4" 
+    },
+    { 
+      name: "Charcoal", 
+      value: "charcoal", 
+      image: "/images/colours/charcoal.png",
+      url: "https://poshmark.ca/listing/NWT-Hand-Knit-Chunky-Wool-Fingerless-Gloves-Charcoal-718" 
+    }
   ];
 
   useEffect(() => {
@@ -242,8 +286,12 @@ export default function Home() {
             </div>
 
             <button 
-            onClick={() => window.open("https://poshmark.ca/listing/NWT-Hand-Knit-Chunky-Wool-Fingerless-Gloves-Unisex-66f8a70ff625338bab0d155f", "_blank")}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-xl text-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
+              onClick={() => window.open(
+                colorOptions.find(c => c.value === selectedColor)?.url || "https://poshmark.ca/default", 
+                "_blank"
+              )}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-xl text-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2"
+            >
               Order Now!
             </button>
           </div>
