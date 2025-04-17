@@ -1,11 +1,73 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedColor, setSelectedColor] = useState("fig");
+  const galleryRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Add this scroll function
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  // Product data
+  const products = [
+    {
+      id: 1,
+      name: "Classic Blue",
+      image: "/images/mitten1.jpg",
+      color: "blue",
+      description: "A timeless design in a vibrant blue color."
+    },
+    {
+      id: 2,
+      name: "Coastal White",
+      image: "/images/mitten2.jpg",
+      color: "white",
+      description: "Elegant and versatile for any outfit."
+    },
+    {
+      id: 3,
+      name: "Eco Green",
+      image: "/images/mitten3.jpg",
+      color: "green",
+      description: "Sustainably made with a fresh green hue."
+    },
+    {
+      id: 4,
+      name: "Sunset Pink",
+      image: "/images/mitten4.jpg",
+      color: "pink",
+      description: "Soft pink reminiscent of coastal sunsets."
+    },
+    {
+      id: 5,
+      name: "Sand Beige",
+      image: "/images/mitten5.jpg",
+      color: "beige",
+      description: "Neutral tone that matches everything."
+    }
+  ];
+
+  const colorOptions = [
+    { name: "Fig", value: "fig", image: "/images/coastal-cozyhands.jpg" },
+    { name: "Blue", value: "blue", image: "/images/mitten1.jpg" },
+    { name: "White", value: "white", image: "/images/mitten2.jpg" },
+    { name: "Green", value: "green", image: "/images/mitten3.jpg" },
+    { name: "Pink", value: "pink", image: "/images/mitten4.jpg" },
+    { name: "Beige", value: "beige", image: "/images/mitten5.jpg" }
+  ];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -13,6 +75,36 @@ export default function Home() {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Auto-scrolling gallery effect
+  useEffect(() => {
+    if (isLoading || isPaused) return;
+
+    const gallery = galleryRef.current;
+    if (!gallery) return;
+
+    const scrollAmount = 1;
+    const scrollSpeed = 30;
+
+    const scrollInterval = setInterval(() => {
+      if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) {
+        gallery.scrollLeft = 0;
+      } else {
+        gallery.scrollLeft += scrollAmount;
+      }
+    }, scrollSpeed);
+
+    return () => clearInterval(scrollInterval);
+  }, [isLoading, isPaused]);
+
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+  };
+
+  const getSelectedImage = () => {
+    const selected = colorOptions.find(option => option.value === selectedColor);
+    return selected ? selected.image : "/images/coastal-cozyhands.jpg";
+  };
 
   if (isLoading) {
     return (
@@ -31,37 +123,41 @@ export default function Home() {
       <header className="relative flex flex-col items-center justify-center text-white text-center min-h-screen overflow-hidden border-b border-black">
         {/* Fading Background Image Layer */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-fade-in opacity-0 animation-delay-300"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: "url('/images/holding-hands.png')",
             backgroundBlendMode: "overlay",
-            backgroundColor: "rgba(128, 170, 237, 0.4)",
+            backgroundColor: "rgba(128, 170, 237, 0.2)",
             animation: "fadeIn 2s ease-in-out forwards",
+            opacity: 0, // Start with opacity 0
             zIndex: 0,
           }}
         ></div>
 
         {/* Content Container */}
-        <div className="relative z-10 bg-white bg-opacity-80 text-blue-600 p-8 sm:p-10 rounded-2xl shadow-2xl max-w-3xl w-full mx-4 animate-fade-in transform transition-all hover:scale-[1.01]">
+        <div className="relative z-10 backdrop-blur-sm bg-white/30 text-gray-800 p-8 sm:p-10 rounded-2xl shadow-2xl border border-black/20 max-w-3xl w-full mx-4 animate-fade-in transform transition-all hover:scale-[1.01]">
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 font-serif">Coastal Cozyhands</h1>
           <p className="text-xl sm:text-2xl mb-8 leading-relaxed">
             Keep your hands warm and stylish with our premium hand warmers, inspired by the beauty of the coast.
           </p>
-          <Link href="#choose-mitten">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-12 rounded-lg font-bold text-xl transition-all duration-300 shadow-xl hover:scale-105 active:scale-95">
-              Shop Now
-            </button>
-          </Link>
+          {/* Modified Shop Now button */}
+          <button 
+            onClick={() => scrollToSection('product-section')}
+            className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-12 rounded-lg font-bold text-xl transition-all duration-300 shadow-xl hover:scale-105 active:scale-95"
+          >
+            Shop Now
+          </button>
         </div>
       </header>
 
       {/* Product Section */}
-      <main className="py-24 px-4 sm:px-8 lg:px-32 border-b border-black bg-gradient-to-b from-blue-50 to-white">
+      <main id="product-section" className="py-24 px-4 sm:px-8 lg:px-32 border-b border-black bg-gradient-to-b from-blue-50 to-white">
+        
         <div className="flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto">
           {/* Product Image */}
           <div className="relative w-full lg:w-1/2 aspect-square max-w-xl animate-fade-in">
             <Image
-              src="/images/coastal-cozyhands.jpg"
+              src={getSelectedImage()}
               alt="Coastal Cozyhands"
               layout="fill"
               objectFit="cover"
@@ -81,8 +177,24 @@ export default function Home() {
               <span className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-bold">New With Tags</span>
             </div>
 
+            {/* Color Picker */}
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-gray-700 mb-3">Color: {colorOptions.find(c => c.value === selectedColor)?.name}</h3>
+              <div className="flex flex-wrap gap-2">
+                {colorOptions.map((color) => (
+                  <button
+                    key={color.value}
+                    onClick={() => handleColorSelect(color.value)}
+                    className={`w-10 h-10 rounded-full border-2 ${selectedColor === color.value ? 'border-blue-600' : 'border-gray-300'} transition-all`}
+                    style={{ backgroundColor: color.value === 'fig' ? '#d597b3' : color.value === 'blue' ? '#93c5fd' : color.value === 'white' ? '#f3f4f6' : color.value === 'green' ? '#86efac' : color.value === 'pink' ? '#f9a8d4' : '#d6d3d1' }}
+                    title={color.name}
+                  />
+                ))}
+              </div>
+            </div>
+
             <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-              These hand-knit, chunky wool fingerless gloves are designed to keep your hands warm on chilly days. The perfect blend of comfort and style, ideal for outdoor activities or lounging indoors. Available in a beautiful pink shade called "Fig."
+              These hand-knit, chunky wool fingerless gloves are designed to keep your hands warm on chilly days. The perfect blend of comfort and style, ideal for outdoor activities or lounging indoors. Available in beautiful colors.
             </p>
 
             <div className="mb-8 space-y-4">
@@ -148,77 +260,80 @@ export default function Home() {
       </main>
 
       {/* Choose Your Mitten Section */}
-      <section id="choose-mitten" className="bg-white py-24 px-4 sm:px-8 lg:px-32 border-b border-black">
+      <section 
+        id="choose-mitten" 
+        className="bg-white py-16 px-4 sm:px-8 border-b border-black"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-blue-600 animate-fade-in font-serif">
-            Choose Your Mitten
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-12 text-blue-600 animate-fade-in font-serif">
+            Our Collection
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Mitten Option 1 */}
-            <div className="text-center bg-white border border-gray-200 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-fade-in">
-              <div className="relative w-full aspect-square mb-6">
-                <Image
-                  src="/images/mitten1.jpg"
-                  alt="Mitten 1"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-2xl"
-                />
+          
+          {/* Auto-scrolling Gallery */}
+          <div 
+            ref={galleryRef}
+            className="flex overflow-x-auto scrollbar-hide space-x-8 py-4"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {products.map((product) => (
+              <div 
+                key={product.id} 
+                className="flex-shrink-0 w-80 bg-white border border-gray-200 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300"
+              >
+                <div className="relative w-full aspect-square mb-6">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-2xl"
+                  />
+                </div>
+                <h3 className="text-2xl font-bold mb-3 text-blue-600">{product.name}</h3>
+                <p className="text-lg text-gray-600 mb-6">{product.description}</p>
+                <Link href="/select-mitten">
+                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg hover:scale-105 active:scale-95">
+                    View Details
+                  </button>
+                </Link>
               </div>
-              <h3 className="text-3xl font-bold mb-4 text-blue-600">Classic Blue</h3>
-              <p className="text-lg text-gray-600 mb-6">A timeless design in a vibrant blue color.</p>
-              <Link href="/select-mitten">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg hover:scale-105 active:scale-95">
-                  Select
-                </button>
-              </Link>
-            </div>
+            ))}
+          </div>
 
-            {/* Mitten Option 2 */}
-            <div className="text-center bg-white border border-gray-200 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-fade-in delay-200">
-              <div className="relative w-full aspect-square mb-6">
-                <Image
-                  src="/images/mitten2.jpg"
-                  alt="Mitten 2"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-2xl"
-                />
-              </div>
-              <h3 className="text-3xl font-bold mb-4 text-blue-600">Coastal White</h3>
-              <p className="text-lg text-gray-600 mb-6">Elegant and versatile for any outfit.</p>
-              <Link href="/select-mitten">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg hover:scale-105 active:scale-95">
-                  Select
-                </button>
-              </Link>
-            </div>
-
-            {/* Mitten Option 3 */}
-            <div className="text-center bg-white border border-gray-200 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-fade-in delay-400">
-              <div className="relative w-full aspect-square mb-6">
-                <Image
-                  src="/images/mitten3.jpg"
-                  alt="Mitten 3"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-2xl"
-                />
-              </div>
-              <h3 className="text-3xl font-bold mb-4 text-blue-600">Eco Green</h3>
-              <p className="text-lg text-gray-600 mb-6">Sustainably made with a fresh green hue.</p>
-              <Link href="/select-mitten">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg hover:scale-105 active:scale-95">
-                  Select
-                </button>
-              </Link>
-            </div>
+          {/* Manual Navigation (optional) */}
+          <div className="flex justify-center mt-8 space-x-4">
+            <button 
+              onClick={() => {
+                if (galleryRef.current) {
+                  galleryRef.current.scrollLeft -= 300;
+                }
+              }}
+              className="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button 
+              onClick={() => {
+                if (galleryRef.current) {
+                  galleryRef.current.scrollLeft += 300;
+                }
+              }}
+              className="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-blue-600 text-white text-center py-12 animate-fade-in border-b border-black">
+      <footer className="bg-blue-600 text-white text-center py-12 animate-fade-in">
         <p className="text-xl font-bold">© 2025 Coastal Cozyhands. All rights reserved.</p>
       </footer>
     </div>
