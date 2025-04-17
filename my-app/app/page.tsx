@@ -126,7 +126,7 @@ export default function Home() {
         <div className="relative z-10 backdrop-blur-sm bg-white/30 text-gray-800 p-8 sm:p-10 rounded-2xl shadow-2xl border border-black/20 max-w-3xl w-full mx-4 animate-fade-in transform transition-all hover:scale-[1.01]">
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 font-serif">Coastal Cozy Hands</h1>
           <p className="text-xl sm:text-2xl mb-8 leading-relaxed">
-            Keep your hands warm and stylish with our premium hand warmers, inspired by the beauty of the coast.
+            Keep your hands warm and stylish with our premium hand warmers.
           </p>
           <button 
             onClick={() => scrollToSection('product-section')}
