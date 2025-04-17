@@ -125,7 +125,7 @@ export default function Home() {
 
         {/* Content Container */}
         <div className="relative z-10 backdrop-blur-sm bg-white/30 text-gray-800 p-8 sm:p-10 rounded-2xl shadow-2xl border border-black/20 max-w-3xl w-full mx-4 animate-fade-in transform transition-all hover:scale-[1.01]">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 font-serif">Coastal Cozyhands</h1>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 font-serif">Coastal Cozy Hands</h1>
           <p className="text-xl sm:text-2xl mb-8 leading-relaxed">
             Keep your hands warm and stylish with our premium hand warmers, inspired by the beauty of the coast.
           </p>
@@ -155,7 +155,7 @@ export default function Home() {
 
           {/* Product Details */}
           <div className="w-full lg:w-1/2 max-w-2xl animate-fade-in delay-300 bg-white p-8 rounded-3xl shadow-xl border border-blue-100">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-serif">Coastal Cozyhands</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-serif">Coastal Cozy Hands</h2>
             
             <div className="mb-6 flex justify-between items-center">
               <div>
@@ -247,14 +247,14 @@ export default function Home() {
       {/* Gallery Section with Bouncing Scroll */}
       <section 
         id="choose-mitten" 
-        className="bg-white py-16 px-4 sm:px-8 border-b border-black"
+        className="bg-[#cfdbfc] py-16 px-4 sm:px-8 border-b border-black"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-12 animate-fade-in font-serif">
+          {/* <h2 className="text-5xl md:text-6xl font-bold text-center mb-12 animate-fade-in font-serif">
             Gallery
-          </h2>
+          </h2> */}
           
           <div 
             ref={galleryRef}
@@ -310,7 +310,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-blue-600 text-white text-center py-12 animate-fade-in">
+      <footer className="bg-[#2a6dbf] text-white text-center py-12 animate-fade-in">
         <p className="text-xl font-bold">© 2025 Coastal Cozyhands. All rights reserved.</p>
       </footer>
     </div>
