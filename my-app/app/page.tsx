@@ -6,12 +6,12 @@ import Link from "next/link";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedColor, setSelectedColor] = useState("fig");
-  const galleryRef = useRef(null);
+  const galleryRef = useRef<HTMLDivElement | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [scrollDirection, setScrollDirection] = useState(1); // 1 for forward, -1 for backward
 
   // Add this scroll function
-  const scrollToSection = (id) => {
+  const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({
@@ -134,7 +134,7 @@ export default function Home() {
     return () => clearInterval(scrollInterval);
   }, [isLoading, isPaused, scrollDirection]);
 
-  const handleColorSelect = (color) => {
+  const handleColorSelect = (color: string) => {
     setSelectedColor(color);
   };
 
